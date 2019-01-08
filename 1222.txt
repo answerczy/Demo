@@ -1,0 +1,8 @@
+*** Settings ***
+Resource          resource/global_keyword.txt
+Library           MyGlh    ${xpath}
+
+*** Test Cases ***
+1
+    ${a}    Generate Client Num
+    log    ${a}

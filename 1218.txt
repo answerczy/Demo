@@ -1,0 +1,67 @@
+*** Settings ***
+Resource          resource/variable.txt
+Resource          resource/global_keyword.txt
+
+*** Test Cases ***
+variables
+    Comment    ${c}    Set Variable    789
+    Comment    log    ${c}
+    Set Global Variable    ${d}    ${66}    #when set global variable,keyword should above variable
+    Set Suite Variable    ${e}    ${888}
+    Set Test Variable    ${f}    ${999}
+    log    列表中第一个数据是@{list2}    #单个输出list中的数据
+    @{list3}    Create List    a    b    v
+    log    ${list3}    #sceond creat list varible method and print    #print ways by scalar
+    Log Many    @{list3}    #print many output by log many
+    Log Many    &{dict1}
+    log    &{dict1}[vivo]    #print value which key is vivo
+    log    ${name}    #define variable by run argument:-v name:robotframework
+    log    ${user}
+
+special variable operation
+    ${number variable operation}    set variable    ${3*3}
+    ${bool true operation}    set variable    ${true*3}
+    ${bool false operation}    set variable    ${false*6}
+    ${space operation}    set variable    ${SPACE*4}
+    #Assert number operation
+    Should Be Equal As Integers    ${number variable operation}    10
+    #Assert Bool operation
+    Should Be Equal    ${bool true operation}    ${3}    #add {} to show number
+    #Assert space appear times
+    Should Contain X Times    ${space operation}    ${SPACE}    4
+
+python expression operation
+    #define two variable
+    ${var1}    Set Variable    6
+    ${var2}    Set Variable    3.14
+    ${result}    Evaluate    0<${var1}<10
+    ${向下取整}    Evaluate    int(${var2})
+    #use python modules    keyword    expression    modules's name
+    ${向上取整}    Evaluate    math.ceil(${var2})    math
+    #use many modules
+    ${random number}    Evaluate    random.randint(0,sys.maxint)    random,sys
+
+operation
+    #define two variable
+    ${var1}    Set Variable    10
+    ${var2}    Set Variable    2
+    #start calculation
+    ${var1+var2}    Evaluate    ${var1}+${var2}
+    ${var1-var2}    Evaluate    ${var1}-${var2}
+    ${var1*var2}    Evaluate    ${var1}*${var2}
+    ${var1/var3}    Evaluate    ${var1}/${var2}
+    log    ${var1/var3}
+
+demo
+    Comment    log    ${c}
+    Set Global Variable    ${var1}    1
+    log    ${var1}
+    Run Keyword If    ${var1}>3    log    hihihi    else    log    333
+
+demo2
+    Comment    log    ${f}
+    Comment    log    ${d}
+    Comment    log    ${e}
+    open browser by gc
+
+a

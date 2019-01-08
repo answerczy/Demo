@@ -1,0 +1,49 @@
+*** Settings ***
+Test Teardown     Close All Browsers
+Resource          resource/global_keyword.txt
+Library           lib/MyGlh.py
+
+*** Test Cases ***
+1
+    Comment    :FOR    ${a}    in range    1    10    2
+    Comment    \    log    ${a}
+    Comment    ${rc}    Set Variable    0
+    Comment    ${var1}    Set Variable If    ${rc}==0    zero
+    Comment    ${var2}    Set Variable If    ${rc}>0    value1    value2
+    open browser by gc    https://www.amazon.cn
+    Set Browser Implicit Wait    20s
+    Maximize Browser Window
+    Input Text    id=twotabsearchtextbox    软件测试
+    Click Element    //*[@id="nav-search"]/form/div[2]/div/input
+    Wait Until Page Contains    登录机构=
+    ${b}    Get Window Handles
+    log    ${b}
+    Click Element    xpath=//*[@id="result_0"]/div/div[3]/div[1]/a/h2
+    Set Browser Implicit Wait    30s
+    Select Window    new
+    Get New Window Handle    ${b}
+    Comment    ${c}    Get Window Handles
+    Comment    log    ${c}
+    Comment    ${a}    Get Title
+    Comment    log    ${a}
+    Comment    Should Not Be Equal    ${a}    ${b}
+    Wait Until Element Is Visible    id=add-to-cart-button
+    Click Element    add-to-cart-button
+    Comment    Click Element    //*[@id="add-to-cart-button"]
+    ${car}    Get Title
+    Run Keyword If    '${car}'==''    log    not found
+    ...    ELSE    Should Be Equal As Strings    ${car}    亚马逊网购物车
+    ${addcar}    Get Text    //*[@id="huc-v2-order-row-confirm-text"]/h1
+    Should Be Equal    商品已加入购物车    ${addcar}
+    ${money}    Get Text    //*[@id="hlb-subcart"]/div[1]/span/span[2]
+    Should Be Equal    ￥ 28.60    ${money}
+
+2
+    [Tags]    p1
+    ${a}    Set Variable    哈哈
+    Run Keyword If    '${a}' == '哈哈'    log    111
+    ...    ELSE    log    222
+
+3
+    [Tags]    p2
+    initial

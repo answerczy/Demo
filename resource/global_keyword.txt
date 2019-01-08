@@ -1,0 +1,41 @@
+*** Settings ***
+Library           Selenium2Library
+Library           OperatingSystem
+Library           Collections
+
+*** Keywords ***
+open browser by gc
+    Run    killtask /F /IM chromedriver.exe
+    Open Browser    ${url}    gc
+    Maximize Browser Window
+    Set Browser Implicit Wait    5
+
+log_url
+    [Arguments]    ${url}
+    [Documentation]    url ='www.baidu.com'
+    [Tags]    q
+    log    ${url}
+
+initial
+    ${runOutpot}    Run    taskkill \ /F /IM chromedriver.exe
+    log    ${runOutpot}
+
+Baidu search
+    [Arguments]    ${url}    ${text}    ${search_title}
+    Input Text    id=kw    ${text}
+    Click Button    id=su
+    ${title}    Get Title
+    Should Be Equal As Strings    ${title}    ${search_title}
+
+Get New Window Handle
+    [Arguments]    ${old_handles}
+    @{new_handles}    Get Window Handles
+    ${status}    Convert To Boolean    False
+    : FOR    ${win}    IN    @{new_handles}
+    \    ${status}    Run Keyword And Return Status    List Should Not Contain Value    ${old_handles}    ${win}
+    \    Return From Keyword If    ${status}    ${win}
+    Should Be True    ${status}    msg=No New Handles
+
+login
+    [Arguments]    ${url}
+    Open Browser    ${url}    gc

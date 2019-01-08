@@ -1,0 +1,23 @@
+*** Settings ***
+Test Setup        initial
+Resource          resource/global_keyword.txt
+Resource          resource/variable.txt
+Resource          resource/操作流程.txt
+Resource          resource/open_browser.txt
+
+*** Test Cases ***
+TDD
+    [Setup]    open browser by gc
+    [Template]    Baidu search    # Use Bai_serach more time
+    http://www.baidu.com    selenium    selenium_百度搜索
+    http://www.baidu.com    微医    微医_百度搜索
+    http://www.baidu.com    robot framework    robot framework_百度搜索
+    [Teardown]    Close All Browsers
+
+2
+    [Setup]    打开浏览器
+    [Template]    百度搜索
+    http://www.baidu.com    selenium    selenium_百度搜索
+    http://www.baidu.com    微医    微医_百度搜索
+    http://www.baidu.com    robot    robot_百度搜索
+    [Teardown]    关闭浏览器

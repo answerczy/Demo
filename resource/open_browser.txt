@@ -1,0 +1,15 @@
+*** Settings ***
+Library           Selenium2Library
+Library           OperatingSystem
+
+*** Keywords ***
+打开浏览器
+    [Arguments]    ${url}=http://www.youdao.com
+    ${runOutpot}    Run    taskkill \ /F /IM chromedriver.exe
+    log    ${runOutpot}
+    Open Browser    ${url}    gc
+    Maximize Browser Window
+    Set Browser Implicit Wait    10
+
+关闭浏览器
+    Close All Browsers

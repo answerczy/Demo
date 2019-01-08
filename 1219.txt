@@ -1,0 +1,65 @@
+*** Settings ***
+Test Teardown     Close All Browsers
+Resource          resource/global_keyword.txt
+
+*** Test Cases ***
+login baidu
+    Open Browser    https://www.baidu.com    gc
+    Maximize Browser Window
+    Wait Until Element Is Visible    xpath=//*[@id="u1"]/a[7]
+    Set Browser Implicit Wait    5
+    Comment    Execute Javascript    document.querySelector('.lb').click()    #querySelector() 方法返回文档中匹配指定 CSS 选择器的一个元素。
+    Comment    Comment    Click Element    xpath=//*[@id="u1"]/a[7]
+    Comment    sleep    3
+    Comment    Click Element    id=TANGRAM__PSP_10__footerULoginBtn
+    Comment    Input Text    id=TANGRAM__PSP_10__userName    回忆中淡忘
+    Comment    Input Password    xpath=//*[@id="TANGRAM__PSP_10__password"]    472054
+    Comment    Click Button    id=TANGRAM__PSP_10__submit
+    ${a}    Selenium2Library.Get WebElement    //*[@id="u1"]/a[1]
+    log    ${a}
+
+locator_xpath
+    Open Browser    https://www.baidu.com    gc
+    Set Browser Implicit Wait    4
+    #locator by css    # . express calss
+    Comment    Input Text    css=.s_ipt    robot framwwork    #locator by css
+    Comment    Input Text    css=[name=wd]    robotframework    #locator by css
+    #'#'express id
+    Comment    Input Text    css=#kw    robotframework
+    Comment    Input Text    //*[@id="kw"]    robotframework
+    Comment    Input Text    //input[@id="kw"]    robotframework
+    #locator element by xpath's name
+    Input Text    //input[@name="wd"]    robotframework
+    #locator element by xpath's value
+    Click Element    xpath=//input[@value="百度一下"]
+    Go To    https://passport.baidu.com/v2/?login&tpl=mn&u=http%3A%2F%2Fwww.baidu.com%2F&sms=5
+    sleep    3
+    Wait Until Page Contains Element    id=TANGRAM__PSP_3__footerULoginBtn    10
+    # get element's text value
+    ${text}    Get Text    id=TANGRAM__PSP_3__footerULoginBtn
+    #get page title
+    ${title}    Get Title
+    log    ${title}
+    log    ${text}
+    #Assert
+    Should Contain    ${text}    用户名登录
+    Should Contain    ${title}    登录百度帐号
+    Wait Until Page Contains    ${text}
+
+Js and Jquery
+    Open Browser    https://www.12306.cn    gc
+    Maximize Browser Window
+    Set Browser Implicit Wait    10
+    Comment    Execute Javascript    document.querySelector('.lb').click()    #querySelector() 方法返回文档中匹配指定 CSS 选择器的一个元素。此处是对类名为lib的进行点击
+    Comment    Input Text    id = kw    robotframework
+    Comment    Comment    Execute Javascript    document.getElementsByName('wd')
+    Comment    Execute Javascript    document.getElementById('su').click()    #operator elements by js
+    Comment    Execute Javascript    document.getElementsByName('tj_trtieba')[0].click()    #list get first elements to click
+    Comment    Execute Javascript    ${'div.bg'}.remove()    #移除蒙层，USE Jquery grammar
+    Comment    Execute Javascript    ${img.tiototaihe-content}.hide()    #隐藏图片
+    Execute Javascript    $('input#train_date.input').removeAttr('readonly')    #remove Date control readonly attribute
+    ${date1}    Execute Javascript    return $('input#train_date.input').val()    #get value
+    log    ${date1}
+    ${date2}    Execute Javascript    return $('input#train_date.input').val('2016-22-11')    #set value
+    log    ${date2}
+    sleep    5

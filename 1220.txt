@@ -1,0 +1,59 @@
+*** Settings ***
+Test Teardown     Close All Browsers
+Resource          resource/global_keyword.txt
+Resource          resource/variable.txt
+
+*** Test Cases ***
+Should
+    Comment    ${empty_variable}    Set Variable
+    Comment    ${va}    Set Variable    111
+    Comment    Should Be Empty    ${empty_variable}
+    Comment    Should Not Be Empty    ${va}
+    Comment    Should Be Equal    121    121
+    Comment    Should Not Be Equal    123    '123'
+    @{list1}    Create List    12    33    34    ${666}
+    @{list2}    Set Variable    2.0    23    ${67}    ${666}
+    Comment    Should Be Equal As Integers    @{list1}[1]    @{list2}[1]
+    Comment    log    @{list1}[2]
+    Comment    log    @{list2}[2]
+    Comment    Should Not Be Equal As Integers    @{list1}[2]    @{list2}[2]
+    Comment    Should Be Equal As Integers    @{list1}[0]    @{list2}[0]
+    Comment    Should Be Equal As Numbers    3.14    3.1    precision=2
+    Comment    Should Be Equal As Integers    @{list1}[3]    @{list2}[3]
+    Comment    Should Not Be Equal As Strings    @{list1}[2]    @{list2}[2]
+    Comment    ${parameter1}    Set Variable    100
+    Comment    ${parameter2}    Set Variable    99
+    Comment    Should Be True    ${parameter1}>${parameter2}
+    Comment    Should Not Be True    ${parameter2}>${parameter1}
+    Comment    Should Contain    ${list1}    33
+    Comment    Should Not Contain    ${list2}    88
+    Comment    ${string1}    Set Variable    robot framework is open source software
+    Comment    Should End With    ${string1}    software
+    Comment    Should Start With    ${string1}    aobot
+    Should Match Regexp    Robot    ^\\w{5}$    #^ express start ,$ express end
+    Should Match Regexp    Robot    ^\\d{5}$    #\w express string;\d match number
+
+2
+    Comment    @{list1}    Create List    1    2    3
+    Comment    log    ${list1}
+    Comment    Log Many    @{list1}
+    Comment    log    @{list1}    # fail
+    Open Browser    file:///C:/Users/Administrator/Desktop/Alert.html    gc
+    Set Browser Implicit Wait    30
+    Maximize Browser Window
+    Click Element    display
+    ${message}    Confirm Action    #need choose use together
+    sleep    10
+    Choose Cancel On Next Confirmation
+    Comment    Choose Ok On Next Confirmation
+    sleep    5
+
+3
+    Open Browser    http://localhost:8080/    gc
+    Maximize Browser Window
+    Set Browser Implicit Wait    20
+    ${title}    Get Title
+    log    ${title}
+
+4
+    Choose File

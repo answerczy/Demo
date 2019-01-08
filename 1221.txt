@@ -1,0 +1,10 @@
+*** Settings ***
+
+*** Test Cases ***
+1
+    Comment    ${a}    Generate Client Name
+    Comment    log    ${a}
+    Comment    Open Browser    www.baidu.com    gc
+    Comment    Set Browser Implicit Wait    20
+    Comment    Input Text    kw    selenium学习
+    Comment    Click Element

@@ -1,0 +1,4 @@
+*** Variables ***
+@{list2}          3    2    5    6    9
+&{dict1}          mi4=4900    apple=6399    vivo=3000
+${list1}          88

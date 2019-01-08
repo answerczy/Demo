@@ -1,0 +1,22 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Keywords ***
+百度搜索：打开百度
+    [Arguments]    ${url}
+    Go To    ${url}
+
+百度搜索：输入搜索内容
+    [Arguments]    ${search_content}
+    Input Text    kw    ${search_content}
+
+百度搜索：点击搜索按钮
+    Click Button    su
+
+百度搜索：验证页面标题
+    [Arguments]    ${title}
+    ${a}    Get Title
+    Should Be Equal As Strings    ${a}    ${title}
+
+百度搜索：等待页面文本出现
+    Wait Until Element Is Visible    su

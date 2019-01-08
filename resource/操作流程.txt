@@ -1,0 +1,12 @@
+*** Settings ***
+Resource          百度搜索流程.txt
+
+*** Keywords ***
+百度搜索
+    [Arguments]    ${url}    ${search_content}    ${title}
+    百度搜索：打开百度    ${url}
+    百度搜索：输入搜索内容    ${search_content}
+    百度搜索：等待页面文本出现
+    百度搜索：点击搜索按钮
+    sleep    2
+    百度搜索：验证页面标题    ${title}
